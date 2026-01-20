@@ -19,7 +19,11 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
+
+  @media (min-width: 768px) {
+    width: 12px;
+  }
 }
 
 ::-webkit-scrollbar-track {
@@ -47,6 +51,25 @@ $text-light: #e2e8f0;
 $text-gray: #94a3b8;
 $border-color: rgba(168, 85, 247, 0.2);
 
+// Responsive Breakpoints
+$breakpoints: (
+  'xs': 320px,
+  'sm': 480px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+  'xxl': 1536px,
+  'ultra': 1920px
+);
+
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
 // Animated Background
 .animated-background {
   position: fixed;
@@ -62,36 +85,75 @@ $border-color: rgba(168, 85, 247, 0.2);
 .gradient-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
+  filter: blur(60px);
+  opacity: 0.4;
   animation: float-orb 20s ease-in-out infinite;
 
+  @include respond-to('md') {
+    filter: blur(80px);
+    opacity: 0.5;
+  }
+
   &.orb-1 {
-    width: 500px;
-    height: 500px;
+    width: 250px;
+    height: 250px;
     background: radial-gradient(circle, $primary 0%, transparent 70%);
-    top: -100px;
-    left: -100px;
+    top: -50px;
+    left: -50px;
     animation-delay: 0s;
+
+    @include respond-to('md') {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      left: -100px;
+    }
+
+    @include respond-to('xl') {
+      width: 500px;
+      height: 500px;
+    }
   }
 
   &.orb-2 {
-    width: 400px;
-    height: 400px;
+    width: 200px;
+    height: 200px;
     background: radial-gradient(circle, $secondary 0%, transparent 70%);
-    bottom: -100px;
-    right: -100px;
+    bottom: -50px;
+    right: -50px;
     animation-delay: 5s;
+
+    @include respond-to('md') {
+      width: 300px;
+      height: 300px;
+      bottom: -100px;
+      right: -100px;
+    }
+
+    @include respond-to('xl') {
+      width: 400px;
+      height: 400px;
+    }
   }
 
   &.orb-3 {
-    width: 350px;
-    height: 350px;
+    width: 180px;
+    height: 180px;
     background: radial-gradient(circle, $accent 0%, transparent 70%);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation-delay: 10s;
+
+    @include respond-to('md') {
+      width: 300px;
+      height: 300px;
+    }
+
+    @include respond-to('xl') {
+      width: 350px;
+      height: 350px;
+    }
   }
 }
 
@@ -105,6 +167,11 @@ $border-color: rgba(168, 85, 247, 0.2);
   position: absolute;
   width: 100%;
   height: 100%;
+  display: none;
+
+  @include respond-to('md') {
+    display: block;
+  }
 }
 
 .particle {
@@ -150,24 +217,44 @@ $border-color: rgba(168, 85, 247, 0.2);
   top: 0;
   width: 100%;
   z-index: 1000;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @include respond-to('md') {
+    padding: 1.5rem 0;
+  }
 
   &.scrolled {
     background: rgba(10, 10, 15, 0.95);
     backdrop-filter: blur(20px) saturate(180%);
     box-shadow: 0 8px 32px rgba(168, 85, 247, 0.1);
-    padding: 1rem 0;
+    padding: 0.75rem 0;
     border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+
+    @include respond-to('md') {
+      padding: 1rem 0;
+    }
   }
 
   &-container {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @include respond-to('sm') {
+      padding: 0 1.5rem;
+    }
+
+    @include respond-to('xl') {
+      max-width: 1536px;
+    }
+
+    @include respond-to('ultra') {
+      max-width: 1920px;
+    }
   }
 }
 
@@ -176,7 +263,7 @@ $border-color: rgba(168, 85, 247, 0.2);
   cursor: pointer;
 
   &-text {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 900;
     font-family: 'Space Grotesk', sans-serif;
     background: linear-gradient(135deg, $primary, $secondary, $accent);
@@ -186,6 +273,10 @@ $border-color: rgba(168, 85, 247, 0.2);
     position: relative;
     z-index: 2;
     transition: transform 0.3s ease;
+
+    @include respond-to('md') {
+      font-size: 1.75rem;
+    }
   }
 
   &-glow {
@@ -193,13 +284,18 @@ $border-color: rgba(168, 85, 247, 0.2);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent);
     border-radius: 50%;
     filter: blur(15px);
     opacity: 0;
     transition: opacity 0.3s ease;
+
+    @include respond-to('md') {
+      width: 60px;
+      height: 60px;
+    }
   }
 
   &:hover {
@@ -216,7 +312,7 @@ $border-color: rgba(168, 85, 247, 0.2);
   display: none;
   gap: 0.5rem;
 
-  @media (min-width: 768px) {
+  @include respond-to('md') {
     display: flex;
   }
 }
@@ -226,11 +322,16 @@ $border-color: rgba(168, 85, 247, 0.2);
   border: none;
   color: $text-gray;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 0.75rem;
   position: relative;
   transition: color 0.3s ease;
+
+  @include respond-to('lg') {
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+  }
 
   span {
     position: relative;
@@ -276,7 +377,15 @@ $border-color: rgba(168, 85, 247, 0.2);
   justify-content: center;
   position: relative;
   overflow: hidden;
-  padding: 2rem 1.5rem;
+  padding: 6rem 1rem 2rem;
+
+  @include respond-to('sm') {
+    padding: 7rem 1.5rem 2rem;
+  }
+
+  @include respond-to('md') {
+    padding: 2rem 1.5rem;
+  }
 }
 
 .hero-content {
@@ -284,19 +393,33 @@ $border-color: rgba(168, 85, 247, 0.2);
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  gap: 2rem;
   align-items: center;
   position: relative;
   z-index: 1;
 
-  @media (min-width: 968px) {
+  @include respond-to('sm') {
+    gap: 2.5rem;
+  }
+
+  @include respond-to('md') {
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+  }
+
+  @include respond-to('lg') {
     grid-template-columns: 400px 1fr;
     gap: 5rem;
   }
 
-  @media (min-width: 1200px) {
+  @include respond-to('xl') {
     grid-template-columns: 450px 1fr;
     gap: 6rem;
+    max-width: 1536px;
+  }
+
+  @include respond-to('ultra') {
+    max-width: 1920px;
   }
 }
 
@@ -306,22 +429,32 @@ $border-color: rgba(168, 85, 247, 0.2);
   justify-content: center;
   align-items: center;
 
-  @media (min-width: 968px) {
+  @include respond-to('md') {
     justify-content: flex-start;
   }
 }
 
 .hero-avatar-wrapper {
   position: relative;
-  width: 16rem;
-  height: 16rem;
+  width: 12rem;
+  height: 12rem;
 
-  @media (min-width: 968px) {
+  @include respond-to('sm') {
+    width: 14rem;
+    height: 14rem;
+  }
+
+  @include respond-to('md') {
+    width: 16rem;
+    height: 16rem;
+  }
+
+  @include respond-to('lg') {
     width: 20rem;
     height: 20rem;
   }
 
-  @media (min-width: 1200px) {
+  @include respond-to('xl') {
     width: 24rem;
     height: 24rem;
   }
@@ -384,13 +517,19 @@ $border-color: rgba(168, 85, 247, 0.2);
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid $primary;
-  box-shadow: 0 0 60px rgba(168, 85, 247, 0.6),
-  0 0 120px rgba(236, 72, 153, 0.3);
+  border: 3px solid $primary;
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.5),
+  0 0 80px rgba(236, 72, 153, 0.2);
   position: relative;
   z-index: 2;
   animation: avatar-float 6s ease-in-out infinite;
   transition: transform 0.3s ease;
+
+  @include respond-to('md') {
+    border: 4px solid $primary;
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.6),
+    0 0 120px rgba(236, 72, 153, 0.3);
+  }
 
   &:hover {
     animation-play-state: paused;
@@ -409,14 +548,25 @@ $border-color: rgba(168, 85, 247, 0.2);
   left: 0;
   width: 100%;
   height: 100%;
+  display: none;
+
+  @include respond-to('md') {
+    display: block;
+  }
 
   .avatar-particle {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     background: linear-gradient(135deg, $primary, $secondary);
     border-radius: 50%;
-    box-shadow: 0 0 10px $primary;
+    box-shadow: 0 0 8px $primary;
+
+    @include respond-to('md') {
+      width: 6px;
+      height: 6px;
+      box-shadow: 0 0 10px $primary;
+    }
 
     @for $i from 1 through 8 {
       &:nth-child(#{$i}) {
@@ -431,10 +581,19 @@ $border-color: rgba(168, 85, 247, 0.2);
 
 @keyframes orbit-particle {
   0% {
-    transform: translate(-50%, -50%) rotate(0deg) translateX(120px) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg) translateX(80px) rotate(0deg);
   }
   100% {
-    transform: translate(-50%, -50%) rotate(360deg) translateX(120px) rotate(-360deg);
+    transform: translate(-50%, -50%) rotate(360deg) translateX(80px) rotate(-360deg);
+  }
+
+  @include respond-to('md') {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg) translateX(120px) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg) translateX(120px) rotate(-360deg);
+    }
   }
 }
 
@@ -442,23 +601,31 @@ $border-color: rgba(168, 85, 247, 0.2);
 .hero-right {
   text-align: center;
 
-  @media (min-width: 968px) {
+  @include respond-to('md') {
     text-align: left;
   }
 }
 
 .hero-title {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 900;
   font-family: 'Space Grotesk', sans-serif;
   margin-bottom: 1rem;
   line-height: 1.2;
 
-  @media (min-width: 768px) {
+  @include respond-to('sm') {
+    font-size: 2.5rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 3.5rem;
+  }
+
+  @include respond-to('lg') {
     font-size: 4.5rem;
   }
 
-  @media (min-width: 1200px) {
+  @include respond-to('xl') {
     font-size: 5.5rem;
   }
 
@@ -493,37 +660,58 @@ $border-color: rgba(168, 85, 247, 0.2);
 .hero-subtitle-wrapper {
   position: relative;
   display: inline-block;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+
+  @include respond-to('md') {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   color: $text-light;
   font-weight: 600;
   display: inline;
 
-  @media (min-width: 768px) {
+  @include respond-to('sm') {
+    font-size: 1.25rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 1.5rem;
+  }
+
+  @include respond-to('lg') {
     font-size: 1.75rem;
   }
 
-  @media (min-width: 1200px) {
+  @include respond-to('xl') {
     font-size: 2rem;
   }
 }
 
 .cursor-blink {
   display: inline-block;
-  width: 3px;
-  height: 1.5rem;
+  width: 2px;
+  height: 1.125rem;
   background: $primary;
   margin-left: 4px;
   animation: blink 1s step-end infinite;
 
-  @media (min-width: 768px) {
+  @include respond-to('sm') {
+    width: 3px;
+    height: 1.25rem;
+  }
+
+  @include respond-to('md') {
+    height: 1.5rem;
+  }
+
+  @include respond-to('lg') {
     height: 1.75rem;
   }
 
-  @media (min-width: 1200px) {
+  @include respond-to('xl') {
     height: 2rem;
   }
 }
@@ -533,14 +721,19 @@ $border-color: rgba(168, 85, 247, 0.2);
 }
 
 .hero-description {
-  font-size: 1.125rem;
+  font-size: 1rem;
   color: $text-gray;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   line-height: 1.8;
   animation: fade-in-up 0.8s ease 0.6s backwards;
 
-  @media (min-width: 968px) {
-    max-width: 100%;
+  @include respond-to('sm') {
+    font-size: 1.0625rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 1.125rem;
+    margin-bottom: 2.5rem;
   }
 }
 
@@ -558,23 +751,34 @@ $border-color: rgba(168, 85, 247, 0.2);
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
   animation: fade-in-up 0.8s ease 0.8s backwards;
 
-  @media (min-width: 968px) {
+  @include respond-to('sm') {
+    gap: 1.25rem;
+  }
+
+  @include respond-to('md') {
     justify-content: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
   }
 }
 
 .social-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @include respond-to('md') {
+    width: 60px;
+    height: 60px;
+  }
 
   &-bg {
     position: absolute;
@@ -593,6 +797,13 @@ $border-color: rgba(168, 85, 247, 0.2);
     z-index: 2;
     color: $text-light;
     transition: all 0.3s ease;
+    width: 20px;
+    height: 20px;
+
+    @include respond-to('md') {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &:hover {
@@ -621,20 +832,32 @@ $border-color: rgba(168, 85, 247, 0.2);
 .download-resume-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1.25rem 3rem;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
   background: linear-gradient(135deg, $primary, $secondary);
   color: white;
   border: none;
   border-radius: 60px;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
   animation: fade-in-up 0.8s ease 1s backwards;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @include respond-to('sm') {
+    gap: 0.625rem;
+    padding: 1.125rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  @include respond-to('md') {
+    gap: 0.75rem;
+    padding: 1.25rem 3rem;
+    font-size: 1.1rem;
+  }
 
   .btn-shine {
     position: absolute;
@@ -649,6 +872,16 @@ $border-color: rgba(168, 85, 247, 0.2);
   svg, span {
     position: relative;
     z-index: 2;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+
+    @include respond-to('md') {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   &:hover {
@@ -673,30 +906,60 @@ $border-color: rgba(168, 85, 247, 0.2);
 
 .scroll-indicator {
   position: absolute;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 2rem;
+  left: auto;
+  right: 1.5rem;
+  transform: none;
   cursor: pointer;
   animation: fade-in-up 0.8s ease 1.2s backwards;
+  display: none;
+  z-index: 10;
+
+  @include respond-to('sm') {
+    display: block;
+    right: 2rem;
+  }
+
+  @include respond-to('md') {
+    bottom: 3rem;
+    right: 2.5rem;
+  }
+
+  @include respond-to('lg') {
+    right: 3rem;
+  }
 
   .mouse {
-    width: 30px;
-    height: 50px;
+    width: 26px;
+    height: 44px;
     border: 2px solid $primary;
-    border-radius: 25px;
-    margin: 0 auto 1rem;
+    border-radius: 22px;
+    margin: 0 auto 0.75rem;
     position: relative;
 
+    @include respond-to('md') {
+      width: 30px;
+      height: 50px;
+      border-radius: 25px;
+      margin: 0 auto 1rem;
+    }
+
     .wheel {
-      width: 4px;
-      height: 10px;
+      width: 3px;
+      height: 8px;
       background: $primary;
       border-radius: 2px;
       position: absolute;
-      top: 8px;
+      top: 7px;
       left: 50%;
       transform: translateX(-50%);
       animation: scroll-wheel 2s ease infinite;
+
+      @include respond-to('md') {
+        width: 4px;
+        height: 10px;
+        top: 8px;
+      }
     }
   }
 
@@ -704,14 +967,22 @@ $border-color: rgba(168, 85, 247, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+
+    @include respond-to('md') {
+      gap: 5px;
+    }
 
     span {
       width: 2px;
-      height: 8px;
+      height: 7px;
       background: $primary;
       display: block;
       animation: arrow-move 1.5s ease infinite;
+
+      @include respond-to('md') {
+        height: 8px;
+      }
 
       @for $i from 1 through 3 {
         &:nth-child(#{$i}) {
@@ -739,11 +1010,22 @@ $border-color: rgba(168, 85, 247, 0.2);
 @keyframes scroll-wheel {
   0%, 100% {
     opacity: 0;
-    top: 8px;
+    top: 7px;
   }
   50% {
     opacity: 1;
-    top: 20px;
+    top: 18px;
+  }
+
+  @include respond-to('md') {
+    0%, 100% {
+      opacity: 0;
+      top: 8px;
+    }
+    50% {
+      opacity: 1;
+      top: 20px;
+    }
   }
 }
 
@@ -760,38 +1042,70 @@ $border-color: rgba(168, 85, 247, 0.2);
 
 // Section Styles
 section {
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
   align-items: center;
-  padding: 5rem 1.5rem;
+  padding: 3rem 1rem;
   position: relative;
   z-index: 1;
+
+  @include respond-to('sm') {
+    padding: 4rem 1.5rem;
+  }
+
+  @include respond-to('md') {
+    min-height: 100vh;
+    padding: 5rem 1.5rem;
+  }
 }
 
 .section-container {
   max-width: 1280px;
   margin: 0 auto;
   width: 100%;
+
+  @include respond-to('xl') {
+    max-width: 1536px;
+  }
+
+  @include respond-to('ultra') {
+    max-width: 1920px;
+  }
 }
 
 .section-container-small {
   max-width: 1024px;
   margin: 0 auto;
   width: 100%;
+
+  @include respond-to('xl') {
+    max-width: 1280px;
+  }
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 1.875rem;
   font-weight: 900;
   font-family: 'Space Grotesk', sans-serif;
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
   position: relative;
   display: inline-block;
   width: 100%;
 
-  @media (min-width: 768px) {
+  @include respond-to('sm') {
+    font-size: 2.25rem;
+    margin-bottom: 3rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 2.75rem;
+    margin-bottom: 3.5rem;
+  }
+
+  @include respond-to('lg') {
     font-size: 3.5rem;
+    margin-bottom: 4rem;
   }
 
   background: linear-gradient(135deg, $primary, $secondary, $accent);
@@ -802,19 +1116,23 @@ section {
   animation: gradient-wave 3s ease infinite, title-appear 0.8s ease backwards;
 
   .title-line {
-    display: inline-block;
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(to right, $primary, $secondary);
-    margin: 0 1rem;
-    border-radius: 2px;
-    vertical-align: middle;
-    animation: line-expand 0.8s ease 0.3s backwards;
+    display: none;
 
-    @media (max-width: 767px) {
-      display: block;
-      width: 100px;
-      margin: 1rem auto;
+    @include respond-to('sm') {
+      display: inline-block;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(to right, $primary, $secondary);
+      margin: 0 0.75rem;
+      border-radius: 2px;
+      vertical-align: middle;
+      animation: line-expand 0.8s ease 0.3s backwards;
+    }
+
+    @include respond-to('md') {
+      width: 60px;
+      height: 4px;
+      margin: 0 1rem;
     }
   }
 }
@@ -835,7 +1153,13 @@ section {
     width: 0;
   }
   to {
-    width: 60px;
+    width: 40px;
+  }
+
+  @include respond-to('md') {
+    to {
+      width: 60px;
+    }
   }
 }
 
@@ -846,12 +1170,13 @@ section {
 
 .about-grid {
   display: grid;
-  gap: 3rem;
+  gap: 2rem;
   animation: fade-in-up 0.8s ease 0.3s backwards;
 
-  @media (min-width: 768px) {
+  @include respond-to('md') {
     grid-template-columns: 1fr 1fr;
     align-items: center;
+    gap: 3rem;
   }
 }
 
@@ -859,13 +1184,27 @@ section {
   .text-reveal {
     p {
       color: $text-gray;
-      font-size: 1.125rem;
-      line-height: 1.8;
+      font-size: 1rem;
+      line-height: 1.7;
       animation: fade-in-up 0.8s ease backwards;
 
+      @include respond-to('sm') {
+        font-size: 1.0625rem;
+        line-height: 1.75;
+      }
+
+      @include respond-to('md') {
+        font-size: 1.125rem;
+        line-height: 1.8;
+      }
+
       &.mb-6 {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.25rem;
         animation-delay: 0.2s;
+
+        @include respond-to('md') {
+          margin-bottom: 1.5rem;
+        }
       }
 
       &:last-child {
@@ -878,19 +1217,37 @@ section {
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
+
+  @include respond-to('sm') {
+    gap: 1.25rem;
+  }
+
+  @include respond-to('md') {
+    gap: 1.5rem;
+  }
 }
 
 .stat-card {
   background: rgba(168, 85, 247, 0.05);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  padding: 1.25rem 1rem;
   text-align: center;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: scale-in 0.6s ease backwards;
+
+  @include respond-to('sm') {
+    border-radius: 18px;
+    padding: 1.5rem 1.25rem;
+  }
+
+  @include respond-to('md') {
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+  }
 
   &::before {
     content: '';
@@ -941,34 +1298,59 @@ section {
 }
 
 .stat-icon {
-  font-size: 2rem;
-  margin-bottom: 0.75rem;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @include respond-to('md') {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .stat-number {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 900;
   color: $primary;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
   font-family: 'Space Grotesk', sans-serif;
   transition: all 0.3s ease;
+
+  @include respond-to('md') {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
 }
 
 .stat-label {
   color: $text-gray;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   font-weight: 600;
+
+  @include respond-to('sm') {
+    font-size: 0.8125rem;
+    letter-spacing: 0.75px;
+  }
+
+  @include respond-to('md') {
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+  }
 }
 
 .stat-progress {
-  margin-top: 1rem;
-  height: 4px;
+  margin-top: 0.75rem;
+  height: 3px;
   background: rgba(168, 85, 247, 0.2);
   border-radius: 2px;
   overflow: hidden;
+
+  @include respond-to('md') {
+    margin-top: 1rem;
+    height: 4px;
+  }
 
   .stat-progress-bar {
     height: 100%;
@@ -988,70 +1370,74 @@ section {
 
   .timeline-line {
     position: absolute;
-    left: 50%;
+    left: 16px;
     top: 0;
     bottom: 0;
     width: 2px;
     background: linear-gradient(180deg, transparent, $primary, $secondary, transparent);
-    transform: translateX(-50%);
+    transform: none;
 
-    @media (max-width: 767px) {
-      left: 20px;
+    @include respond-to('md') {
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 }
 
 .experience-item {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 2rem;
-  margin-bottom: 4rem;
-  align-items: center;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  align-items: flex-start;
 
-  @media (max-width: 767px) {
-    grid-template-columns: auto 1fr;
-    gap: 1rem;
+  @include respond-to('sm') {
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @include respond-to('md') {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+    align-items: center;
   }
 
   &.left {
-    .experience-card {
-      grid-column: 1;
-      animation: slide-in-left 0.8s ease backwards;
-    }
-
-    .timeline-dot {
-      grid-column: 2;
-    }
-
-    @media (max-width: 767px) {
+    @include respond-to('md') {
       .experience-card {
-        grid-column: 2;
+        grid-column: 1;
+        animation: slide-in-left 0.8s ease backwards;
       }
 
       .timeline-dot {
-        grid-column: 1;
+        grid-column: 2;
       }
     }
   }
 
   &.right {
-    .experience-card {
-      grid-column: 3;
-      animation: slide-in-right 0.8s ease backwards;
-    }
-
-    .timeline-dot {
-      grid-column: 2;
-    }
-
-    @media (max-width: 767px) {
+    @include respond-to('md') {
       .experience-card {
-        grid-column: 2;
+        grid-column: 3;
+        animation: slide-in-right 0.8s ease backwards;
       }
 
       .timeline-dot {
-        grid-column: 1;
+        grid-column: 2;
       }
+    }
+  }
+
+  .experience-card {
+    grid-column: 2;
+  }
+
+  .timeline-dot {
+    grid-column: 1;
+
+    @include respond-to('md') {
+      grid-column: 2;
     }
   }
 }
@@ -1079,14 +1465,23 @@ section {
 }
 
 .timeline-dot {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background: $primary;
   border-radius: 50%;
-  border: 4px solid $darker-bg;
+  border: 3px solid $darker-bg;
   position: relative;
   z-index: 2;
-  box-shadow: 0 0 20px $primary;
+  box-shadow: 0 0 15px $primary;
+  margin-top: 0.5rem;
+
+  @include respond-to('md') {
+    width: 20px;
+    height: 20px;
+    border: 4px solid $darker-bg;
+    box-shadow: 0 0 20px $primary;
+    margin-top: 0;
+  }
 
   .dot-pulse {
     position: absolute;
@@ -1115,11 +1510,21 @@ section {
 .experience-card {
   background: rgba(168, 85, 247, 0.05);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 1.25rem;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @include respond-to('sm') {
+    border-radius: 18px;
+    padding: 1.5rem;
+  }
+
+  @include respond-to('md') {
+    border-radius: 20px;
+    padding: 2rem;
+  }
 
   .card-glow {
     position: absolute;
@@ -1150,69 +1555,130 @@ section {
 
 .experience-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  @include respond-to('sm') {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .experience-title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: $primary;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
   transition: color 0.3s ease;
+
+  @include respond-to('sm') {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 1.5rem;
+  }
 }
 
 .experience-company {
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: $text-light;
   margin-bottom: 0.25rem;
   font-weight: 600;
+
+  @include respond-to('sm') {
+    font-size: 1.125rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 1.25rem;
+  }
 }
 
 .experience-location {
   color: $text-gray;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
+
+  @include respond-to('md') {
+    font-size: 0.95rem;
+  }
 }
 
 .experience-meta {
-  text-align: right;
+  text-align: left;
+
+  @include respond-to('sm') {
+    text-align: right;
+  }
 }
 
 .experience-period {
   color: $primary;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
+
+  @include respond-to('md') {
+    font-size: 0.95rem;
+  }
 }
 
 .experience-website {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: $text-gray;
   margin-top: 0.25rem;
+
+  @include respond-to('md') {
+    font-size: 0.875rem;
+  }
 }
 
 .experience-description {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  gap: 0.625rem;
+  margin-top: 1rem;
+
+  @include respond-to('sm') {
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  @include respond-to('md') {
+    margin-top: 1.5rem;
+  }
 
   li {
     color: $text-gray;
     display: flex;
     align-items: flex-start;
-    line-height: 1.6;
-    padding-left: 0.5rem;
+    line-height: 1.5;
+    padding-left: 0.25rem;
+    font-size: 0.9375rem;
+
+    @include respond-to('sm') {
+      padding-left: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
   }
 }
 
 .bullet {
   color: $primary;
-  margin-right: 0.75rem;
+  margin-right: 0.625rem;
   font-weight: bold;
+  flex-shrink: 0;
+
+  @include respond-to('md') {
+    margin-right: 0.75rem;
+  }
 }
 
 // Projects Section
@@ -1222,13 +1688,18 @@ section {
 
 .projects-grid {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
 
-  @media (min-width: 768px) {
+  @include respond-to('sm') {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
   }
 
-  @media (min-width: 1024px) {
+  @include respond-to('md') {
+    gap: 2rem;
+  }
+
+  @include respond-to('lg') {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -1236,14 +1707,24 @@ section {
 .project-card {
   background: rgba(168, 85, 247, 0.05);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: scale-in 0.6s ease backwards;
+
+  @include respond-to('sm') {
+    border-radius: 18px;
+    padding: 1.75rem;
+  }
+
+  @include respond-to('md') {
+    border-radius: 20px;
+    padding: 2rem;
+  }
 
   .project-gradient {
     position: absolute;
@@ -1283,76 +1764,125 @@ section {
 .project-icon-wrapper {
   position: relative;
   width: fit-content;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+
+  @include respond-to('md') {
+    margin-bottom: 1.5rem;
+  }
 
   .icon-circle {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background: radial-gradient(circle, rgba(168, 85, 247, 0.2), transparent);
     border-radius: 50%;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    @include respond-to('md') {
+      width: 80px;
+      height: 80px;
+    }
   }
 }
 
 .project-icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
   position: relative;
   z-index: 2;
   display: inline-block;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @include respond-to('md') {
+    font-size: 3rem;
+  }
 }
 
 .project-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: $primary;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.625rem;
   transition: color 0.3s ease;
   position: relative;
   z-index: 2;
+
+  @include respond-to('md') {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .project-description {
   color: $text-gray;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   flex-grow: 1;
-  line-height: 1.6;
+  line-height: 1.5;
   position: relative;
   z-index: 2;
+  font-size: 0.9375rem;
+
+  @include respond-to('sm') {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  @include respond-to('md') {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.375rem;
+  margin-bottom: 1.25rem;
   position: relative;
   z-index: 2;
+
+  @include respond-to('sm') {
+    gap: 0.5rem;
+  }
+
+  @include respond-to('md') {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .tech-badge {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   background: rgba(168, 85, 247, 0.15);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 16px;
   color: #d8b4fe;
   border: 1px solid rgba(168, 85, 247, 0.3);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.375rem;
   font-weight: 600;
 
+  @include respond-to('sm') {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    gap: 0.5rem;
+  }
+
   .tech-dot {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     background: $primary;
     border-radius: 50%;
-    box-shadow: 0 0 10px $primary;
+    box-shadow: 0 0 8px $primary;
+
+    @include respond-to('sm') {
+      width: 6px;
+      height: 6px;
+      box-shadow: 0 0 10px $primary;
+    }
   }
 
   &:hover {
@@ -1367,24 +1897,36 @@ section {
   color: $primary;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   text-decoration: none;
   transition: all 0.3s ease;
   font-weight: 600;
   position: relative;
   z-index: 2;
   width: fit-content;
-  padding: 0.75rem 1.5rem;
+  padding: 0.625rem 1.25rem;
   border: 2px solid rgba(168, 85, 247, 0.3);
-  border-radius: 30px;
+  border-radius: 24px;
   background: rgba(168, 85, 247, 0.05);
+  font-size: 0.875rem;
+
+  @include respond-to('sm') {
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    gap: 0.75rem;
+    font-size: 1rem;
+  }
 
   &:hover {
     color: $secondary;
-    gap: 1.25rem;
+    gap: 1rem;
     border-color: rgba(168, 85, 247, 0.6);
     background: rgba(168, 85, 247, 0.15);
     box-shadow: 0 5px 20px rgba(168, 85, 247, 0.3);
+
+    @include respond-to('sm') {
+      gap: 1.25rem;
+    }
 
     svg {
       transform: translateX(5px) rotate(-45deg);
@@ -1394,6 +1936,13 @@ section {
   svg {
     display: block;
     transition: transform 0.3s ease;
+    width: 14px;
+    height: 14px;
+
+    @include respond-to('sm') {
+      width: 16px;
+      height: 16px;
+    }
   }
 }
 
@@ -1404,13 +1953,18 @@ section {
 
 .skills-grid {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
 
-  @media (min-width: 768px) {
+  @include respond-to('sm') {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
   }
 
-  @media (min-width: 1024px) {
+  @include respond-to('md') {
+    gap: 2rem;
+  }
+
+  @include respond-to('lg') {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -1418,12 +1972,22 @@ section {
 .skill-category {
   background: rgba(168, 85, 247, 0.05);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 1.5rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: fade-in-up 0.8s ease backwards;
   position: relative;
   overflow: hidden;
+
+  @include respond-to('sm') {
+    border-radius: 18px;
+    padding: 1.75rem;
+  }
+
+  @include respond-to('md') {
+    border-radius: 20px;
+    padding: 2rem;
+  }
 
   &::before {
     content: '';
@@ -1431,11 +1995,15 @@ section {
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: linear-gradient(to right, $primary, $secondary);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s ease;
+
+    @include respond-to('md') {
+      height: 4px;
+    }
   }
 
   &:hover {
@@ -1454,37 +2022,61 @@ section {
 }
 
 .category-icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
   display: inline-block;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @include respond-to('md') {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .category-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: $primary;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   font-family: 'Space Grotesk', sans-serif;
+
+  @include respond-to('md') {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .skill-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
+
+  @include respond-to('sm') {
+    gap: 0.625rem;
+  }
+
+  @include respond-to('md') {
+    gap: 0.75rem;
+  }
 }
 
 .skill-badge {
   background: rgba(168, 85, 247, 0.15);
-  padding: 0.6rem 1.2rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  font-size: 0.8125rem;
   color: $text-light;
   border: 1px solid rgba(168, 85, 247, 0.3);
   transition: all 0.3s ease;
   display: inline-block;
   font-weight: 600;
   animation: fade-in-scale 0.5s ease backwards;
+
+  @include respond-to('sm') {
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+  }
 
   &:hover {
     background: rgba(168, 85, 247, 0.3);
@@ -1514,18 +2106,32 @@ section {
 .education-list {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
+
+  @include respond-to('md') {
+    gap: 2rem;
+  }
 }
 
 .education-card {
   background: rgba(168, 85, 247, 0.05);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 1.5rem;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: fade-in-up 0.8s ease backwards;
+
+  @include respond-to('sm') {
+    border-radius: 18px;
+    padding: 1.75rem;
+  }
+
+  @include respond-to('md') {
+    border-radius: 20px;
+    padding: 2rem;
+  }
 
   .card-shine {
     position: absolute;
@@ -1540,11 +2146,17 @@ section {
 
   .education-badge {
     position: absolute;
-    top: 2rem;
-    right: 2rem;
-    font-size: 3rem;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2.5rem;
     opacity: 0.2;
     transition: all 0.4s ease;
+
+    @include respond-to('md') {
+      top: 2rem;
+      right: 2rem;
+      font-size: 3rem;
+    }
   }
 
   &:hover {
@@ -1569,39 +2181,77 @@ section {
 
 .education-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  @include respond-to('sm') {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .education-degree {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: $primary;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
   transition: color 0.3s ease;
+
+  @include respond-to('sm') {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 1.5rem;
+  }
 }
 
 .education-university {
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: $text-light;
   font-weight: 600;
+
+  @include respond-to('sm') {
+    font-size: 1.125rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 1.25rem;
+  }
 }
 
 .education-period {
   color: $primary;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
+
+  @include respond-to('md') {
+    font-size: 0.95rem;
+  }
 }
 
 .education-specialization,
 .education-research {
   color: $text-gray;
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
-  font-size: 0.95rem;
+  margin-bottom: 0.375rem;
+  line-height: 1.5;
+  font-size: 0.875rem;
+
+  @include respond-to('sm') {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    font-size: 0.9375rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 0.95rem;
+  }
 }
 
 // Contact Section
@@ -1611,36 +2261,60 @@ section {
 
 .contact-grid {
   display: grid;
-  gap: 3rem;
+  gap: 2rem;
   animation: fade-in-up 0.8s ease 0.3s backwards;
 
-  @media (min-width: 768px) {
+  @include respond-to('sm') {
+    gap: 2.5rem;
+  }
+
+  @include respond-to('md') {
     grid-template-columns: 1fr 1fr;
+    gap: 3rem;
   }
 }
 
 .contact-heading {
-  font-size: 1.75rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: $primary;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   font-family: 'Space Grotesk', sans-serif;
+
+  @include respond-to('sm') {
+    font-size: 1.5rem;
+  }
+
+  @include respond-to('md') {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .contact-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
+
+  @include respond-to('md') {
+    gap: 1.5rem;
+  }
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding: 1rem;
-  border-radius: 12px;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 10px;
   transition: all 0.3s ease;
   animation: fade-in-up 0.6s ease backwards;
+
+  @include respond-to('sm') {
+    gap: 1.25rem;
+    padding: 1rem;
+    border-radius: 12px;
+  }
 
   @for $i from 1 through 5 {
     &:nth-child(#{$i}) {
@@ -1649,8 +2323,12 @@ section {
   }
 
   &:hover {
-    transform: translateX(15px);
+    transform: translateX(10px);
     background: rgba(168, 85, 247, 0.1);
+
+    @include respond-to('md') {
+      transform: translateX(15px);
+    }
 
     .contact-icon-wrapper {
       transform: scale(1.2);
@@ -1660,19 +2338,32 @@ section {
 }
 
 .contact-icon-wrapper {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
-  border-radius: 12px;
+  border-radius: 10px;
   flex-shrink: 0;
   transition: all 0.3s ease;
   border: 1px solid rgba(168, 85, 247, 0.3);
 
+  @include respond-to('sm') {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+  }
+
   svg {
     color: $primary;
+    width: 20px;
+    height: 20px;
+
+    @include respond-to('sm') {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 
@@ -1682,6 +2373,11 @@ section {
     text-decoration: none;
     transition: color 0.3s ease;
     font-weight: 500;
+    font-size: 0.9375rem;
+
+    @include respond-to('sm') {
+      font-size: 1rem;
+    }
 
     &:hover {
       color: $primary;
@@ -1692,12 +2388,22 @@ section {
 .contact-cta {
   background: rgba(168, 85, 247, 0.05);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 20px;
-  padding: 2.5rem;
+  border-radius: 16px;
+  padding: 2rem;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: scale-in 0.8s ease 0.5s backwards;
+
+  @include respond-to('sm') {
+    border-radius: 18px;
+    padding: 2.25rem;
+  }
+
+  @include respond-to('md') {
+    border-radius: 20px;
+    padding: 2.5rem;
+  }
 
   .cta-glow {
     position: absolute;
@@ -1724,20 +2430,31 @@ section {
 
 .contact-message {
   color: $text-gray;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
   position: relative;
   z-index: 2;
+  font-size: 0.9375rem;
+
+  @include respond-to('sm') {
+    margin-bottom: 1.75rem;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+
+  @include respond-to('md') {
+    margin-bottom: 2rem;
+  }
 }
 
 .cta-button {
   display: inline-flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   background: linear-gradient(135deg, $primary, $secondary);
   color: white;
-  padding: 1.25rem 2.5rem;
-  border-radius: 50px;
+  padding: 1rem 2rem;
+  border-radius: 40px;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1745,6 +2462,18 @@ section {
   position: relative;
   z-index: 2;
   overflow: hidden;
+  font-size: 0.9375rem;
+
+  @include respond-to('sm') {
+    gap: 1rem;
+    padding: 1.125rem 2.25rem;
+    border-radius: 50px;
+    font-size: 1rem;
+  }
+
+  @include respond-to('md') {
+    padding: 1.25rem 2.5rem;
+  }
 
   .btn-text {
     position: relative;
@@ -1757,6 +2486,16 @@ section {
     display: flex;
     align-items: center;
     transition: transform 0.3s ease;
+
+    svg {
+      width: 18px;
+      height: 18px;
+
+      @include respond-to('sm') {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 
   &::before {
@@ -1787,9 +2526,17 @@ section {
 // Footer
 .footer {
   border-top: 1px solid rgba(168, 85, 247, 0.2);
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1rem;
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.02) 0%, transparent 100%);
   animation: fade-in-up 0.6s ease;
+
+  @include respond-to('sm') {
+    padding: 2.75rem 1.5rem;
+  }
+
+  @include respond-to('md') {
+    padding: 3rem 1.5rem;
+  }
 }
 
 .footer-content {
@@ -1797,27 +2544,52 @@ section {
   margin: 0 auto;
   text-align: center;
   color: $text-gray;
+
+  @include respond-to('xl') {
+    max-width: 1536px;
+  }
+
+  @include respond-to('ultra') {
+    max-width: 1920px;
+  }
 }
 
 .footer-logo {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+
+  @include respond-to('md') {
+    margin-bottom: 1.5rem;
+  }
 
   .logo-text {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 900;
     font-family: 'Space Grotesk', sans-serif;
     background: linear-gradient(135deg, $primary, $secondary, $accent);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+
+    @include respond-to('md') {
+      font-size: 2rem;
+    }
   }
 }
 
 .footer-content {
   p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.375rem;
     transition: color 0.3s ease;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
+
+    @include respond-to('sm') {
+      margin-bottom: 0.5rem;
+      font-size: 0.9375rem;
+    }
+
+    @include respond-to('md') {
+      font-size: 0.95rem;
+    }
 
     &:hover {
       color: $primary;
@@ -1826,21 +2598,34 @@ section {
 }
 
 .footer-subtitle {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   opacity: 0.8;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+
+  @include respond-to('sm') {
+    font-size: 0.875rem;
+  }
+
+  @include respond-to('md') {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .footer-social {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+
+  @include respond-to('md') {
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
 }
 
 .footer-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1850,8 +2635,20 @@ section {
   color: $text-gray;
   transition: all 0.3s ease;
 
+  @include respond-to('md') {
+    width: 40px;
+    height: 40px;
+  }
+
   svg {
     transition: transform 0.3s ease;
+    width: 18px;
+    height: 18px;
+
+    @include respond-to('md') {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   &:hover {
@@ -1863,6 +2660,889 @@ section {
 
     svg {
       transform: scale(1.1);
+    }
+  }
+}
+
+// Responsive Typography Adjustments
+@media (max-width: 319px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+// High Resolution Displays
+@include respond-to('ultra') {
+  .hero-title {
+    font-size: 6rem;
+  }
+
+  .section-title {
+    font-size: 4rem;
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+  }
+}
+
+// Print Styles
+@media print {
+  .animated-background,
+  .navbar,
+  .scroll-indicator,
+  .particle-container {
+    display: none;
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+
+  .hero-section {
+    min-height: auto;
+  }
+}
+
+// Landscape Mobile Optimization
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section {
+    min-height: auto;
+    padding: 7rem 1rem 2rem;
+  }
+
+  section {
+    min-height: auto;
+    padding: 3rem 1rem;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+}
+
+// Tablet Landscape Optimization
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+  .hero-content {
+    gap: 4rem;
+  }
+
+  .hero-avatar-wrapper {
+    width: 18rem;
+    height: 18rem;
+  }
+}
+
+// Ultra-wide Screen Optimization
+@media (min-width: 2560px) {
+  body {
+    font-size: 18px;
+  }
+
+  .section-container {
+    max-width: 2400px;
+  }
+
+  .section-container-small {
+    max-width: 1920px;
+  }
+}
+
+// Accessibility - Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .gradient-orb,
+  .particle,
+  .avatar-particle {
+    animation: none !important;
+  }
+}
+
+// High Contrast Mode
+@media (prefers-contrast: high) {
+  .navbar {
+    border-bottom: 2px solid $primary;
+  }
+
+  .social-icon-bg,
+  .project-card,
+  .skill-category,
+  .experience-card,
+  .education-card,
+  .stat-card {
+    border-width: 2px;
+  }
+}
+
+// Dark Mode Support (if needed in future)
+@media (prefers-color-scheme: light) {
+  // Currently designed for dark mode only
+  // Add light mode styles here if needed
+}
+
+// Light Mode Styles
+@media (prefers-color-scheme: light) {
+  $light-bg: #f8fafc;
+  $light-surface: #ffffff;
+  $light-text: #1e293b;
+  $light-text-secondary: #475569;
+  $light-border: rgba(168, 85, 247, 0.15);
+
+  body {
+    background: $light-bg;
+  }
+
+  :host {
+    background: $light-bg;
+    color: $light-text;
+  }
+
+  // Scrollbar
+  ::-webkit-scrollbar-track {
+    background: #e2e8f0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #a855f7, #ec4899);
+  }
+
+  // Animated Background
+  .animated-background {
+    .gradient-orb {
+      opacity: 0.15;
+
+      &.orb-1 {
+        background: radial-gradient(circle, $primary 0%, transparent 60%);
+      }
+
+      &.orb-2 {
+        background: radial-gradient(circle, $secondary 0%, transparent 60%);
+      }
+
+      &.orb-3 {
+        background: radial-gradient(circle, $accent 0%, transparent 60%);
+      }
+    }
+
+    .particle {
+      opacity: 0.2;
+    }
+  }
+
+  // Navigation
+  .navbar {
+    &.scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 8px 32px rgba(168, 85, 247, 0.08);
+      border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+    }
+  }
+
+  .nav-link {
+    color: $light-text-secondary;
+
+    &:hover, &.active {
+      color: $primary;
+    }
+
+    &.active {
+      color: $light-text;
+    }
+  }
+
+  // Hero Section
+  .hero-avatar-img {
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.3),
+    0 0 120px rgba(236, 72, 153, 0.15);
+  }
+
+  .hero-subtitle {
+    color: $light-text;
+  }
+
+  .hero-description {
+    color: $light-text-secondary;
+  }
+
+  .social-icon {
+    &-bg {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(236, 72, 153, 0.08));
+      border-color: rgba(168, 85, 247, 0.2);
+    }
+
+    svg {
+      color: $light-text;
+    }
+
+    &:hover {
+      .social-icon-bg {
+        background: linear-gradient(135deg, $primary, $secondary);
+        border-color: transparent;
+      }
+
+      svg {
+        color: white;
+      }
+    }
+  }
+
+  .scroll-indicator {
+    .mouse {
+      border-color: $primary;
+
+      .wheel {
+        background: $primary;
+      }
+    }
+
+    .arrow-down span {
+      background: $primary;
+    }
+  }
+
+  // Section Backgrounds
+  .about-section {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+  }
+
+  .experience-section {
+    background: linear-gradient(135deg, transparent 0%, rgba(236, 72, 153, 0.03) 100%);
+  }
+
+  .projects-section {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+  }
+
+  .skills-section {
+    background: linear-gradient(135deg, transparent 0%, rgba(236, 72, 153, 0.03) 100%);
+  }
+
+  .education-section {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+  }
+
+  .contact-section {
+    background: linear-gradient(135deg, transparent 0%, rgba(236, 72, 153, 0.03) 100%);
+  }
+
+  // About Section
+  .about-text p {
+    color: $light-text-secondary;
+  }
+
+  .stat-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    &::before {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.08), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .stat-label {
+    color: $light-text-secondary;
+  }
+
+  // Experience Section
+  .timeline-line {
+    background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3), transparent);
+  }
+
+  .timeline-dot {
+    border-color: $light-bg;
+  }
+
+  .experience-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .card-glow {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.08), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .experience-company {
+    color: $light-text;
+  }
+
+  .experience-location,
+  .experience-website {
+    color: $light-text-secondary;
+  }
+
+  .experience-description li {
+    color: $light-text-secondary;
+  }
+
+  // Projects Section
+  .project-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .project-gradient {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.06), rgba(236, 72, 153, 0.06));
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 25px 50px rgba(168, 85, 247, 0.2);
+    }
+  }
+
+  .project-description {
+    color: $light-text-secondary;
+  }
+
+  .tech-badge {
+    background: rgba(168, 85, 247, 0.1);
+    color: #7c3aed;
+    border-color: rgba(168, 85, 247, 0.2);
+
+    .tech-dot {
+      background: $primary;
+    }
+
+    &:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+    }
+  }
+
+  .project-link {
+    color: $primary;
+    border-color: rgba(168, 85, 247, 0.2);
+    background: rgba(168, 85, 247, 0.05);
+
+    &:hover {
+      color: $secondary;
+      border-color: rgba(168, 85, 247, 0.4);
+      background: rgba(168, 85, 247, 0.1);
+      box-shadow: 0 5px 20px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  // Skills Section
+  .skill-category {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .skill-badge {
+    background: rgba(168, 85, 247, 0.1);
+    color: $light-text;
+    border-color: rgba(168, 85, 247, 0.2);
+
+    &:hover {
+      background: rgba(168, 85, 247, 0.2);
+      color: $light-text;
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 8px 20px rgba(168, 85, 247, 0.2);
+    }
+  }
+
+  // Education Section
+  .education-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .card-shine {
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.08), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .education-university {
+    color: $light-text;
+  }
+
+  .education-specialization,
+  .education-research {
+    color: $light-text-secondary;
+  }
+
+  // Contact Section
+  .contact-item {
+    &:hover {
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    a, span {
+      color: $light-text-secondary;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  .contact-icon-wrapper {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+    border-color: rgba(168, 85, 247, 0.2);
+  }
+
+  .contact-cta {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .cta-glow {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .contact-message {
+    color: $light-text-secondary;
+  }
+
+  .cta-button {
+    box-shadow: 0 8px 30px rgba(168, 85, 247, 0.25);
+
+    &:hover {
+      box-shadow: 0 15px 45px rgba(168, 85, 247, 0.4);
+    }
+  }
+
+  // Footer
+  .footer {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+    border-top-color: rgba(168, 85, 247, 0.15);
+  }
+
+  .footer-content {
+    color: $light-text-secondary;
+
+    p:hover {
+      color: $primary;
+    }
+  }
+
+  .footer-icon {
+    background: rgba(168, 85, 247, 0.08);
+    border-color: rgba(168, 85, 247, 0.2);
+    color: $light-text-secondary;
+
+    &:hover {
+      background: linear-gradient(135deg, $primary, $secondary);
+      color: white;
+      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.25);
+    }
+  }
+}
+
+// Manual Light Mode Toggle Support (if you add a toggle button)
+.light-mode {
+  $light-bg: #f8fafc;
+  $light-surface: #ffffff;
+  $light-text: #1e293b;
+  $light-text-secondary: #475569;
+  $light-border: rgba(168, 85, 247, 0.15);
+
+  background: $light-bg;
+  color: $light-text;
+
+  // Scrollbar
+  ::-webkit-scrollbar-track {
+    background: #e2e8f0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #a855f7, #ec4899);
+  }
+
+  // Animated Background
+  .animated-background {
+    .gradient-orb {
+      opacity: 0.15;
+
+      &.orb-1 {
+        background: radial-gradient(circle, $primary 0%, transparent 60%);
+      }
+
+      &.orb-2 {
+        background: radial-gradient(circle, $secondary 0%, transparent 60%);
+      }
+
+      &.orb-3 {
+        background: radial-gradient(circle, $accent 0%, transparent 60%);
+      }
+    }
+
+    .particle {
+      opacity: 0.2;
+    }
+  }
+
+  // Navigation
+  .navbar {
+    &.scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 8px 32px rgba(168, 85, 247, 0.08);
+      border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+    }
+  }
+
+  .nav-link {
+    color: $light-text-secondary;
+
+    &:hover, &.active {
+      color: $primary;
+    }
+
+    &.active {
+      color: $light-text;
+    }
+  }
+
+  // Hero Section
+  .hero-avatar-img {
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.3),
+    0 0 120px rgba(236, 72, 153, 0.15);
+  }
+
+  .hero-subtitle {
+    color: $light-text;
+  }
+
+  .hero-description {
+    color: $light-text-secondary;
+  }
+
+  .social-icon {
+    &-bg {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(236, 72, 153, 0.08));
+      border-color: rgba(168, 85, 247, 0.2);
+    }
+
+    svg {
+      color: $light-text;
+    }
+
+    &:hover {
+      .social-icon-bg {
+        background: linear-gradient(135deg, $primary, $secondary);
+        border-color: transparent;
+      }
+
+      svg {
+        color: white;
+      }
+    }
+  }
+
+  .scroll-indicator {
+    .mouse {
+      border-color: $primary;
+
+      .wheel {
+        background: $primary;
+      }
+    }
+
+    .arrow-down span {
+      background: $primary;
+    }
+  }
+
+  // Section Backgrounds
+  .about-section {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+  }
+
+  .experience-section {
+    background: linear-gradient(135deg, transparent 0%, rgba(236, 72, 153, 0.03) 100%);
+  }
+
+  .projects-section {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+  }
+
+  .skills-section {
+    background: linear-gradient(135deg, transparent 0%, rgba(236, 72, 153, 0.03) 100%);
+  }
+
+  .education-section {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+  }
+
+  .contact-section {
+    background: linear-gradient(135deg, transparent 0%, rgba(236, 72, 153, 0.03) 100%);
+  }
+
+  // About Section
+  .about-text p {
+    color: $light-text-secondary;
+  }
+
+  .stat-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    &::before {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.08), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .stat-label {
+    color: $light-text-secondary;
+  }
+
+  // Experience Section
+  .timeline-line {
+    background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3), transparent);
+  }
+
+  .timeline-dot {
+    border-color: $light-bg;
+  }
+
+  .experience-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .card-glow {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.08), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .experience-company {
+    color: $light-text;
+  }
+
+  .experience-location,
+  .experience-website {
+    color: $light-text-secondary;
+  }
+
+  .experience-description li {
+    color: $light-text-secondary;
+  }
+
+  // Projects Section
+  .project-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .project-gradient {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.06), rgba(236, 72, 153, 0.06));
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 25px 50px rgba(168, 85, 247, 0.2);
+    }
+  }
+
+  .project-description {
+    color: $light-text-secondary;
+  }
+
+  .tech-badge {
+    background: rgba(168, 85, 247, 0.1);
+    color: #7c3aed;
+    border-color: rgba(168, 85, 247, 0.2);
+
+    .tech-dot {
+      background: $primary;
+    }
+
+    &:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+    }
+  }
+
+  .project-link {
+    color: $primary;
+    border-color: rgba(168, 85, 247, 0.2);
+    background: rgba(168, 85, 247, 0.05);
+
+    &:hover {
+      color: $secondary;
+      border-color: rgba(168, 85, 247, 0.4);
+      background: rgba(168, 85, 247, 0.1);
+      box-shadow: 0 5px 20px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  // Skills Section
+  .skill-category {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .skill-badge {
+    background: rgba(168, 85, 247, 0.1);
+    color: $light-text;
+    border-color: rgba(168, 85, 247, 0.2);
+
+    &:hover {
+      background: rgba(168, 85, 247, 0.2);
+      color: $light-text;
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 8px 20px rgba(168, 85, 247, 0.2);
+    }
+  }
+
+  // Education Section
+  .education-card {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .card-shine {
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.08), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .education-university {
+    color: $light-text;
+  }
+
+  .education-specialization,
+  .education-research {
+    color: $light-text-secondary;
+  }
+
+  // Contact Section
+  .contact-item {
+    &:hover {
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    a, span {
+      color: $light-text-secondary;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  .contact-icon-wrapper {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+    border-color: rgba(168, 85, 247, 0.2);
+  }
+
+  .contact-cta {
+    background: $light-surface;
+    border-color: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .cta-glow {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent);
+    }
+
+    &:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+    }
+  }
+
+  .contact-message {
+    color: $light-text-secondary;
+  }
+
+  .cta-button {
+    box-shadow: 0 8px 30px rgba(168, 85, 247, 0.25);
+
+    &:hover {
+      box-shadow: 0 15px 45px rgba(168, 85, 247, 0.4);
+    }
+  }
+
+  // Footer
+  .footer {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, transparent 100%);
+    border-top-color: rgba(168, 85, 247, 0.15);
+  }
+
+  .footer-content {
+    color: $light-text-secondary;
+
+    p:hover {
+      color: $primary;
+    }
+  }
+
+  .footer-icon {
+    background: rgba(168, 85, 247, 0.08);
+    border-color: rgba(168, 85, 247, 0.2);
+    color: $light-text-secondary;
+
+    &:hover {
+      background: linear-gradient(135deg, $primary, $secondary);
+      color: white;
+      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.25);
     }
   }
 }
