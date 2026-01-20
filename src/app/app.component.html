@@ -1,0 +1,399 @@
+<!-- Navigation -->
+<nav [class.scrolled]="isScrolled" class="navbar">
+  <div class="navbar-container">
+    <div class="logo">
+      <span class="logo-text">AJ</span>
+      <div class="logo-glow"></div>
+    </div>
+    <div class="nav-links">
+      <button
+        *ngFor="let item of navItems"
+        (click)="scrollToSection(item)"
+        [class.active]="activeSection === item.toLowerCase()"
+        class="nav-link">
+        <span>{{ item }}</span>
+        <div class="nav-link-hover"></div>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Animated Background -->
+<div class="animated-background">
+  <div class="gradient-orb orb-1"></div>
+  <div class="gradient-orb orb-2"></div>
+  <div class="gradient-orb orb-3"></div>
+  <div class="particle-container">
+    <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"></div>
+  </div>
+</div>
+
+<!-- Hero Section -->
+<section id="home" class="hero-section">
+  <div class="hero-content">
+    <!-- Left Side: Profile Image -->
+    <div class="hero-left">
+      <div class="hero-avatar-wrapper">
+        <div class="avatar-rings">
+          <div class="avatar-ring ring-1"></div>
+          <div class="avatar-ring ring-2"></div>
+          <div class="avatar-ring ring-3"></div>
+        </div>
+        <img
+          [src]="profileImage"
+          alt="Arun Jeganathan"
+          class="hero-avatar-img" />
+        <div class="avatar-particles">
+          <span *ngFor="let i of [1,2,3,4,5,6,7,8]" class="avatar-particle"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side: Content -->
+    <div class="hero-right">
+      <h1 class="hero-title">
+        <span class="title-word" *ngFor="let word of ['Arun', 'Jeganathan']; let i = index"
+              [style.animation-delay]="(i * 0.2) + 's'">
+          {{ word }}
+        </span>
+      </h1>
+
+      <div class="hero-subtitle-wrapper">
+        <p class="hero-subtitle typing-effect">Full-Stack Software Engineer</p>
+        <div class="cursor-blink"></div>
+      </div>
+
+      <p class="hero-description">
+        Passionate about building innovative solutions with modern technologies.
+        Specializing in MERN stack, Angular, AI integration, and creating seamless user experiences.
+      </p>
+
+      <div class="social-links">
+        <a href="mailto:jeganathanarun9901@gmail.com" class="social-icon" title="Email">
+          <div class="social-icon-bg"></div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+        <a href="https://linkedin.com/in/arun-jeganathan-171b981ba" target="_blank" class="social-icon" title="LinkedIn">
+          <div class="social-icon-bg"></div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a href="https://github.com/ArunJeganathan1909" target="_blank" class="social-icon" title="GitHub">
+          <div class="social-icon-bg"></div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+        </a>
+      </div>
+
+      <button (click)="downloadResume()" class="download-resume-btn">
+        <span class="btn-shine"></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>Download Resume</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" (click)="scrollToSection('about')">
+    <div class="mouse">
+      <div class="wheel"></div>
+    </div>
+    <div class="arrow-down">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about-section">
+  <div class="section-container">
+    <h2 class="section-title">
+      <span class="title-line"></span>
+      About Me
+      <span class="title-line"></span>
+    </h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="text-reveal">
+          <p class="mb-6">
+            I value punctuality and precision in my work, allowing me to respond professionally
+            and adapt swiftly to evolving situations. My ability to quickly grasp new concepts
+            is complemented by my curiosity, driving me to explore emerging technologies and
+            tackle complex problems.
+          </p>
+          <p>
+            With an insatiable thirst for learning, I constantly seek opportunities to expand
+            my skill set and contribute meaningfully to innovative projects.
+          </p>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of stats; let i = index" [style.animation-delay]="(i * 0.1) + 's'">
+          <div class="stat-icon">{{ stat.icon }}</div>
+          <div class="stat-number" [attr.data-target]="stat.number">{{ stat.number }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-progress">
+            <div class="stat-progress-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" class="experience-section">
+  <div class="section-container-small">
+    <h2 class="section-title">
+      <span class="title-line"></span>
+      Work Experience
+      <span class="title-line"></span>
+    </h2>
+    <div class="experience-timeline">
+      <div class="timeline-line"></div>
+      <div *ngFor="let exp of experiences; let i = index" class="experience-item" [class.left]="i % 2 === 0" [class.right]="i % 2 !== 0">
+        <div class="timeline-dot">
+          <div class="dot-pulse"></div>
+        </div>
+        <div class="experience-card">
+          <div class="card-glow"></div>
+          <div class="experience-header">
+            <div>
+              <h3 class="experience-title">{{ exp.title }}</h3>
+              <div class="experience-company">{{ exp.company }}</div>
+              <div class="experience-location">📍 {{ exp.location }}</div>
+            </div>
+            <div class="experience-meta">
+              <div class="experience-period">{{ exp.period }}</div>
+              <div *ngIf="exp.website" class="experience-website">🌐 {{ exp.website }}</div>
+            </div>
+          </div>
+          <ul class="experience-description">
+            <li *ngFor="let item of exp.description">
+              <span class="bullet">▹</span>{{ item }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="projects-section">
+  <div class="section-container">
+    <h2 class="section-title">
+      <span class="title-line"></span>
+      Featured Projects
+      <span class="title-line"></span>
+    </h2>
+    <div class="projects-grid">
+      <div *ngFor="let project of projects; let i = index" class="project-card" [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="project-gradient"></div>
+        <div class="project-icon-wrapper">
+          <div class="project-icon">{{ project.icon }}</div>
+          <div class="icon-circle"></div>
+        </div>
+        <h3 class="project-title">{{ project.title }}</h3>
+        <p class="project-description">{{ project.description }}</p>
+        <div class="project-tech">
+          <span *ngFor="let tech of project.tech" class="tech-badge">
+            <span class="tech-dot"></span>{{ tech }}
+          </span>
+        </div>
+        <a *ngIf="project.link" [href]="project.link" target="_blank" class="project-link">
+          <span>View Project</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="skills-section">
+  <div class="section-container">
+    <h2 class="section-title">
+      <span class="title-line"></span>
+      Technical Skills
+      <span class="title-line"></span>
+    </h2>
+    <div class="skills-grid">
+      <div *ngFor="let category of getSkillCategories(); let i = index" class="skill-category" [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="category-icon">⚡</div>
+        <h3 class="category-title">{{ category }}</h3>
+        <div class="skill-list">
+          <span *ngFor="let skill of skills[category]; let j = index"
+                class="skill-badge"
+                [style.animation-delay]="((i * 0.1) + (j * 0.05)) + 's'">
+            {{ skill }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Education Section -->
+<section id="education" class="education-section">
+  <div class="section-container-small">
+    <h2 class="section-title">
+      <span class="title-line"></span>
+      Education
+      <span class="title-line"></span>
+    </h2>
+    <div class="education-list">
+      <div class="education-card">
+        <div class="education-badge">🎓</div>
+        <div class="card-shine"></div>
+        <div class="education-header">
+          <div>
+            <h3 class="education-degree">Master of Science in Computer Science</h3>
+            <div class="education-university">University of Sri Jayewardenepura</div>
+          </div>
+          <div class="education-period">2024 – Present</div>
+        </div>
+        <p class="education-specialization">Specialization: Advanced Algorithms, Machine Learning, Distributed Systems</p>
+        <p class="education-research">Research in AI, Cloud Computing, Cybersecurity, Software Architecture, and Big Data</p>
+      </div>
+      <div class="education-card">
+        <div class="education-badge">🎓</div>
+        <div class="card-shine"></div>
+        <div class="education-header">
+          <div>
+            <h3 class="education-degree">Bachelor of Science in Physical Science</h3>
+            <div class="education-university">University of Jaffna</div>
+          </div>
+          <div class="education-period">2020 – 2024</div>
+        </div>
+        <p class="education-specialization">Specialization: Computer Science, Statistics, Pure Mathematics</p>
+        <p class="education-research">Comprehensive study in programming, data structures, algorithms, and mathematical foundations</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section">
+  <div class="section-container-small">
+    <h2 class="section-title">
+      <span class="title-line"></span>
+      Get In Touch
+      <span class="title-line"></span>
+    </h2>
+    <div class="contact-grid">
+      <div class="contact-info-wrapper">
+        <h3 class="contact-heading">Contact Information</h3>
+        <div class="contact-list">
+          <div class="contact-item">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <a href="mailto:jeganathanarun9901@gmail.com">jeganathanarun9901@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <a href="tel:+94775959641">+94 775 959 641</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <span>Colombo, Sri Lanka</span>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </div>
+            <a href="https://linkedin.com/in/arun-jeganathan-171b981ba" target="_blank">LinkedIn Profile</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            </div>
+            <a href="https://github.com/ArunJeganathan1909" target="_blank">GitHub Profile</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-cta">
+        <div class="cta-glow"></div>
+        <h3 class="contact-heading">Quick Message</h3>
+        <p class="contact-message">
+          I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+        </p>
+        <a href="mailto:jeganathanarun9901@gmail.com" class="cta-button">
+          <span class="btn-text">Send Email</span>
+          <span class="btn-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <span class="logo-text">AJ</span>
+    </div>
+    <p>© 2026 Arun Jeganathan. Built with Angular & SCSS</p>
+    <p class="footer-subtitle">Designed with modern web technologies</p>
+    <div class="footer-social">
+      <a href="mailto:jeganathanarun9901@gmail.com" class="footer-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+      <a href="https://linkedin.com/in/arun-jeganathan-171b981ba" target="_blank" class="footer-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+      <a href="https://github.com/ArunJeganathan1909" target="_blank" class="footer-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
